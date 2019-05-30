@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mono-server
+  labels:
+    app: mono-server
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mono-server
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: mono-server
+    spec:
+      containers:
+      - image: 669316943211.dkr.ecr.us-west-2.amazonaws.com/mono-server:latest
+        imagePullPolicy: Always
+        name: mono-server
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        
